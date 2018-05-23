@@ -31,10 +31,14 @@ public class TecladoMovil extends JFrame implements ActionListener, MouseListene
 
     JMenuBar barraMenu;
     JMenu archivo;
-    JMenu itemMovil;
+    JMenu movil;
+    JMenu otros;
+    
     JMenuItem itemGrabar;
     JMenuItem itemLeer;
 
+    JMenuItem itemAcerca;
+    
     JButton boton;
     JButton butReset;
 
@@ -58,22 +62,25 @@ public class TecladoMovil extends JFrame implements ActionListener, MouseListene
         JMenuItem reset = new JMenuItem();
         JMenuItem salir = new JMenu();
         
-        itemArchivo = new JMenu("Archivo");
-        itemMovil = new JMenu("Movil");
+        archivo = new JMenu("Archivo");
+        movil = new JMenu("Movil");
         
         barraMenu = new JMenuBar();
         barraMenu.setVisible(true);
         this.add(barraMenu);
         
         
-
-        itemArchivo.add(itemGrabar);
-        itemArchivo.add(itemLeer);
-        itemMovil.add(reset);
-        itemMovil.addSeparator();
-        itemMovil.add(salir);
-        barraMenu.add(itemArchivo);
-
+        archivo.add(itemGrabar);
+        archivo.add(itemLeer);
+        movil.add(reset);
+        movil.addSeparator();
+        movil.add(salir);
+        otros.add(itemAcerca);
+        
+        barraMenu.add(archivo);
+        barraMenu.add(movil);
+        barraMenu.add(otros);
+        
         String almohadilla = "#";
         String cero = "0";
         String asterisco = "*";
