@@ -20,10 +20,5 @@ public class Ejercicio1 {
         archivo.setSize(600, 400);
         archivo.setVisible(true);
 
-//        Scanner sc = new Scanner(System.in);
-//        String path;
-//        System.out.printf("Introduce path de archivo o directorio: ");
-//        path = sc.nextLine();
-//        File f = new File(path);
     }
 }
