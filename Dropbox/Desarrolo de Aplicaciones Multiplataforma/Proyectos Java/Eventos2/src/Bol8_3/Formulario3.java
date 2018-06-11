@@ -9,6 +9,7 @@ import com.sun.java.accessibility.util.AWTEventMonitor;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,12 +31,24 @@ import javax.swing.event.ListSelectionListener;
 public class Formulario3 extends JFrame implements ActionListener, ListSelectionListener {
 
     JList lista;
+    DefaultListModel<String> modelList = new DefaultListModel<String>();
+//    AbstractListModel<String> abstractModel = new AbstractListModel<String>() {
+//        @Override
+//        public int getSize() {
+//            System.out.println("");
+//        }
+//
+//        @Override
+//        public String getElementAt(int i) {
+//            System.out.println("");
+//        }
+//    };
     JComboBox combo;
-    JButton anhadir;
-    JButton quitar;
-    JButton traspasarDer;
-    JButton traspasaIzq;
-    JTextField texto;
+    JButton btnAnhadir;
+    JButton btnQuitar;
+    JButton btnTraspasarDer;
+    JButton btnTraspasaIzq;
+    JTextField txfTexto;
     JLabel lblUno;
     JLabel lblDos;
     JLabel lblTres;
@@ -50,36 +63,40 @@ public class Formulario3 extends JFrame implements ActionListener, ListSelection
 //        lista.setSize(200, 400);
 //        lista.setLocation(30, 60);
 //        lista.setBorder(new LineBorder(Color.black));
-        lista.setModel(new DefaultListModel());
+//        lista.setModel(new DefaultListModel());
 //        lista.setSelectionModel(single);
-        lista.addListSelectionListener(this);
+//        lista.addListSelectionListener(this);
 //        this.add(lista);
+        lista.setModel(modelList);
 
         combo = new JComboBox();
         combo.setSize(200, 30);
         combo.setLocation(260, 220);
+        lista.setVisibleRowCount(5);
+//        lista.addListSelectionListener((ListSelectionListener) this);
+        add(new JScrollPane(lista));
         this.add(combo);
 
-        anhadir = new JButton("Añadir");
-        anhadir.setToolTipText("Pulsa aquí para añadir");
-        anhadir.setSize(100, 30);
-        anhadir.setLocation(260, 120);
-        anhadir.addActionListener(this);
-        this.add(anhadir);
+        btnAnhadir = new JButton("Añadir");
+        btnAnhadir.setToolTipText("Pulsa aquí para añadir");
+        btnAnhadir.setSize(100, 30);
+        btnAnhadir.setLocation(260, 120);
+        btnAnhadir.addActionListener(this);
+        this.add(btnAnhadir);
 
-        quitar = new JButton("Quitar");
-        quitar.setToolTipText("Pulsa aquí para eliminar un elemento");
-        quitar.setSize(100, 30);
-        quitar.setLocation(260, 160);
-        quitar.addActionListener(this);
-        this.add(quitar);
+        btnQuitar = new JButton("Quitar");
+        btnQuitar.setToolTipText("Pulsa aquí para eliminar un elemento");
+        btnQuitar.setSize(100, 30);
+        btnQuitar.setLocation(260, 160);
+        btnQuitar.addActionListener(this);
+        this.add(btnQuitar);
 
-        texto = new JTextField("");
-        texto.setToolTipText("Escribe aquí los que quieras añadir...");
-        texto.setSize(200, 30);
-        texto.setLocation(260, 60);
-        texto.addActionListener(this);
-        this.add(texto);
+        txfTexto = new JTextField("");
+        txfTexto.setToolTipText("Escribe aquí los que quieras añadir...");
+        txfTexto.setSize(200, 30);
+        txfTexto.setLocation(260, 60);
+        txfTexto.addActionListener(this);
+        this.add(txfTexto);
 
         lblDos = new JLabel();
         lblDos.setToolTipText("Lista...");
@@ -102,10 +119,40 @@ public class Formulario3 extends JFrame implements ActionListener, ListSelection
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == texto) {
 
+        if (ae.getSource() == txfTexto || ae.getSource() == btnAnhadir) {
+            if (txfTexto.getText().trim().length() == 0) {
+                JOptionPane.showMessageDialog(null, "Campo vacio", "Advertencia", WIDTH);
+            } else {
+                modelList.addElement(txfTexto.getText());
+                txfTexto.setText("");
+            }
         }
-        if (ae.getSource() == anhadir) {
+
+        if (ae.getSource() == btnQuitar) {
+//            modelList.getListDataListeners().
+//            lista.getListSelectionListeners();
+            String s = "Elementos seleccionados: ";
+            if (lista.isSelectionEmpty()) {
+                JOptionPane.showMessageDialog(null, "No se ha seleccionado nada", "Error", WIDTH);
+                for (Object item : lista.getSelectedValuesList()) {
+                    s = s + (String) item + " ";
+                }
+            }
+
+            if (lista.getSelectedIndices().length != 0) {
+                JOptionPane.showMessageDialog(null, "Entra", "", WIDTH);
+                for (int i = 0; i < modelList.getSize(); i++) {
+//                lista.removeElementAt(lista.getSelectedIndex());
+                    if (lista.isSelectedIndex(i)) {
+                        modelList.removeElement(i);
+                        JOptionPane.showConfirmDialog(null, "Aquí tambien", "Info", WIDTH);
+                    }
+                            lista.setModel(modelList);
+
+                }
+
+            }
         }
     }
 
@@ -116,12 +163,19 @@ public class Formulario3 extends JFrame implements ActionListener, ListSelection
             JOptionPane.showMessageDialog(null, "No se ha seleccionado nada", "Error", WIDTH);
         } else {
             for (Object item : lista.getSelectedValuesList()) {
-                s += (String) item + " ";
+                s = s + (String) item + " ";
             }
         }
+
         if (lista.getSelectedIndex() > 1) {
-//            combo.add( lista.getSelectedIndex());
+            int n = lista.getSelectedIndex();
+//            int selectIndex[] = new int[];
+//            int[] getSelectedIndices(lista.getSelectedIndices());
+            lista.getSelectedIndices();
+
+            modelList.addElement(s);
+//    C        combo.add(n);
+
         }
     }
-
 }
